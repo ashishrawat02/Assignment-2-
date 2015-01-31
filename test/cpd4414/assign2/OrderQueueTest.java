@@ -112,8 +112,19 @@ public class OrderQueueTest {
         assertNull(b);
 
     }
-      @Test
-    public void testWhenProcess() throws Exception {
-}
+    
+    @Test
+    public void testWhenProcessAnOrderAndAllThepurchaseAreInStockInInventoryTableThenTimeReceivedIsNow() throws Exception {
+        OrderQueue orderQueue = new OrderQueue();
+        Order order = new Order("CUST00001", "ABC Construction");
+        order.addPurchase(new Purchase(04, 4));
+        order.addPurchase(new Purchase(06, 2));
+        orderQueue.add(order);
+        orderQueue.orderProcess(order);
+
+        Date expResult = new Date();
+        Date result = order.getTimeProcessed();
+        assertEquals(expResult ,result );
+    }
     
 }
