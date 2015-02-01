@@ -114,7 +114,7 @@ public class OrderQueueTest {
     }
 
     @Test
-    public void testWhenProcessAnOrderAndAllThepurchaseAreInStockInInventoryTableThenTimeReceivedIsNow() throws Exception {
+    public void testWhenProcessAnOrderAndAllThePurchaseAreInStockInInventoryTableThenTimeReceivedIsNow() throws Exception {
         OrderQueue orderQueue = new OrderQueue();
         Order order = new Order("CUST00001", "ABC Construction");
         order.addPurchase(new Purchase(04, 4));
@@ -146,4 +146,40 @@ public class OrderQueueTest {
         }
         assertTrue(choice);
     }
+     @Test
+    public void testWhenNoTimeProcessedAndReceivedAndAllThePurchaseAreInStockInInventoryTableSetFullFillNow() throws Exception {
+     OrderQueue orderQueue = new OrderQueue();
+        Order order = new Order("CUST00001", "ABC Construction");
+        order.addPurchase(new Purchase(04, 4));
+        order.addPurchase(new Purchase(06, 2));
+        orderQueue.add(order);
+        orderQueue.orderProcess(order);
+        orderQueue.fullFillOrder(order);
+
+        Date expResult = new Date();
+        Date result = order.getTimeFulfilled();
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void testWhenNoTimeProcessedThrowException() throws Exception {
+     boolean choice = false;
+        OrderQueue orderQueue = new OrderQueue();
+        Order order = new Order("CUST00001", "ABC Construction");
+        order.addPurchase(new Purchase(04, 4));
+        order.addPurchase(new Purchase(06, 2));
+        orderQueue.add(order);
+//        orderQueue.orderProcess(order);
+
+        try {
+            orderQueue.fullFillOrder(order);
+        } catch (noProcessException ex) {
+            choice = true;
+       
+        }catch (Exception e) {
+            choice = false;
+        }
+        assertTrue(choice);
+    
+    }
+    
 }

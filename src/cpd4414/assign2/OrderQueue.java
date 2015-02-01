@@ -64,4 +64,24 @@ public class OrderQueue {
         orderQueue.add(order);
     }
 
+    public void fullFillOrder(Order order) throws noRecivedException, Exception {
+
+        if (order.getTimeProcessed() == null) {
+            throw new noProcessException("Order does not have a time processed");
+        }
+        if (order.getTimeReceived() == null) {
+            throw new noRecivedException("Order does not have a time recived");
+        }
+        for (Purchase product : order.getListOfPurchases()) {
+            int inventoryProductQuant = Inventory.getQuantityForId(product.getProductId());
+            int orderQuantity = product.getQuantity();
+            if (orderQuantity > inventoryProductQuant) {
+                throw new Exception("order out of stock");
+            }
+
+        }
+        order.setTimeFulfilled(new Date());
+        orderQueue.remove(order);
+        orderQueue.add(order);
+    }
 }
