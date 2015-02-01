@@ -112,7 +112,7 @@ public class OrderQueueTest {
         assertNull(b);
 
     }
-    
+
     @Test
     public void testWhenProcessAnOrderAndAllThepurchaseAreInStockInInventoryTableThenTimeReceivedIsNow() throws Exception {
         OrderQueue orderQueue = new OrderQueue();
@@ -124,7 +124,26 @@ public class OrderQueueTest {
 
         Date expResult = new Date();
         Date result = order.getTimeProcessed();
-        assertEquals(expResult ,result );
+        assertEquals(expResult, result);
     }
-    
+
+    @Test
+    public void testWhenOrderDoesNotHaveTimeReceived() throws Exception {
+        boolean choice = false;
+        OrderQueue orderQueue = new OrderQueue();
+        Order order = new Order("CUST00001", "ABC Construction");
+        order.addPurchase(new Purchase(04, 4));
+        order.addPurchase(new Purchase(06, 2));
+//        orderQueue.add(order);
+//        orderQueue.orderProcess(order);
+
+        try {
+            orderQueue.orderProcess(order);
+        } catch (noRecivedException ex) {
+            choice = true;
+        } catch (Exception e) {
+            choice = false;
+        }
+        assertTrue(choice);
+    }
 }

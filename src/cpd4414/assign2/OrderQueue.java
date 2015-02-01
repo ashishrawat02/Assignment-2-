@@ -47,21 +47,21 @@ public class OrderQueue {
         return orderQueue.peek();
 
     }
-    
-    public void orderProcess(Order order) throws Exception{
-        if(order.getTimeReceived() == null){
-        throw new Exception("Order does not have a time recived");
+
+    public void orderProcess(Order order) throws Exception {
+        if (order.getTimeReceived() == null) {
+            throw new noRecivedException("Order does not have a time recived");
         }
-    for( Purchase product : order.getListOfPurchases()){
-        int inventoryProductQuant = Inventory.getQuantityForId(product.getProductId());
-        int orderQuantity = product.getQuantity();
-        if(orderQuantity > inventoryProductQuant){
-        throw new Exception ("order out of stock");
+        for (Purchase product : order.getListOfPurchases()) {
+            int inventoryProductQuant = Inventory.getQuantityForId(product.getProductId());
+            int orderQuantity = product.getQuantity();
+            if (orderQuantity > inventoryProductQuant) {
+                throw new Exception("order out of stock");
+            }
         }
+        order.setTimeProcessed(new Date());
+        orderQueue.remove(order);
+        orderQueue.add(order);
     }
-     order.setTimeProcessed(new Date());
-     orderQueue.remove(order);
-     orderQueue.add(order);
-    }
-       
+
 }
