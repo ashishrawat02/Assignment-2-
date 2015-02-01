@@ -181,5 +181,26 @@ public class OrderQueueTest {
         assertTrue(choice);
     
     }
+     @Test
+    public void testWhenNoTimeRecivedThrowException() throws Exception {
+     boolean choice = false;
+        OrderQueue orderQueue = new OrderQueue();
+        Order order = new Order("CUST00001", "ABC Construction");
+        order.addPurchase(new Purchase(04, 4));
+        order.addPurchase(new Purchase(06, 2));
+//        orderQueue.add(order);
+//        orderQueue.orderProcess(order);
+
+        try {
+            orderQueue.fullFillOrder(order);
+        } catch (noRecivedException ex) {
+            choice = true;
+       
+        }catch (Exception e) {
+            choice = false;
+        }
+        assertTrue(choice);
+    
+    }
     
 }

@@ -66,11 +66,12 @@ public class OrderQueue {
 
     public void fullFillOrder(Order order) throws noRecivedException, Exception {
 
-        if (order.getTimeProcessed() == null) {
-            throw new noProcessException("Order does not have a time processed");
-        }
+
         if (order.getTimeReceived() == null) {
             throw new noRecivedException("Order does not have a time recived");
+        }
+        if (order.getTimeProcessed() == null) {
+            throw new noProcessException("Order does not have a time processed");
         }
         for (Purchase product : order.getListOfPurchases()) {
             int inventoryProductQuant = Inventory.getQuantityForId(product.getProductId());
